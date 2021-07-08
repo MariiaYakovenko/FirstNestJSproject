@@ -15,4 +15,5 @@ export class UserDTO implements IUser{
     created_at: Date;
 
     updated_at: Date;
+    
 }

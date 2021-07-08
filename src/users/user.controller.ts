@@ -8,6 +8,7 @@ export class UserController {
     constructor(private userService:UserService){}
     @Post()
     async create(@Body() user:UserDTO): Promise<IUser> {
+        //console.log(`userController: ${user}`);
         return this.userService.createPost(user);
     }
     

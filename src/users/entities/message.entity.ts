@@ -1,5 +1,5 @@
 import {Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable, OneToMany, ManyToOne, OneToOne} from "typeorm";
-import { User } from "./user.entity";
+import { UserEntity } from "./user.entity";
 
 @Entity('messages')
 export class Message{
@@ -23,12 +23,12 @@ export class Message{
     message_body:string;
     
     //декоратор для связи с Entity User (one-to-many)
-     @ManyToOne(()=>User, (user:User)=>user.outcomingMessage)
-     sender:User;
+   //  @ManyToOne(()=>UserEntity, (user:UserEntity)=>user.outcomingMessage)
+   //  sender:UserEntity;
 
     //декоратор для связи с Entity User (one-to-many)
-     @ManyToOne(()=>User, (user:User)=>user.incomingMessage)
-     receiver:User;
+   //  @ManyToOne(()=>UserEntity, (user:UserEntity)=>user.incomingMessage)
+   //  receiver:UserEntity;
 
     //many-to-one может быть
 

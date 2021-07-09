@@ -13,30 +13,7 @@ export class UserController {
         return this.userService.createUser(user);
     }
 
-    @Get(':id')
-    async read(@Param('id') id:number):Promise<IUser>{
-        //console.log(id);
-        let user=this.userService.readUser(id);
-        if(user!=null){
-            return user;
-        }
-        else{
-            throw new BadRequestException('can\'t find the user');
-        }
-    }
-
-    @Get('all')
-    async readAll():Promise<IUser[]>{
-        console.log('bla');
-        return this.userService.readAllUsers();
-    }
-
-   // @Put(':id')
-    //async update(@Param('id') id:string):Promise<IUser>{
-
-    //    return this.userService.updateUser(id);
-    //}
-
+   
     
    
 }

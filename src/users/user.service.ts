@@ -18,5 +18,31 @@ export class UserService {
         return this.usersRepository.save(user);
     }
 
+    async readUser(id:number):Promise<IUser>{
+        console.log(id);
+        try{
+            return this.usersRepository.findOne(id);
+        }
+        catch{
+            let usernull:UserDTO;
+            return usernull;
+        }
+    }
+
+    async readAllUsers():Promise<IUser[]>{
+        try {
+            return this.usersRepository.find();
+        }
+        catch{
+            
+        }
+
+    }
+    
+
+    //async updateUser(id:string):Promise<IUser>{
+      // return this.usersRepository.update();
+    //}
+
     
 }

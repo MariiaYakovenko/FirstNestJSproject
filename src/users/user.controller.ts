@@ -9,13 +9,11 @@ export class UserController {
 
     @Post()
     async create(@Body() user:UserDTO): Promise<IUser> {
-        //console.log(`userController: ${user}`);
         return this.userService.createUser(user);
     }
 
     @Get(':id')
     async read(@Param('id') id:number):Promise<IUser>{
-        //console.log(id);
         let user=this.userService.readUser(id);
         if(user!=null){
             return user;

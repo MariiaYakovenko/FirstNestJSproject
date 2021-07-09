@@ -19,7 +19,6 @@ export class UserService {
     }
 
     async readUser(id:number):Promise<IUser>{
-        console.log(id);
         try{
             return this.usersRepository.findOne(id);
         }

@@ -1,7 +1,7 @@
 import { IUser } from "./user.interface";
 
 
-export class UserDTO implements IUser{
+export class CreateUserDTO implements IUser{
     id: number;
     first_name: string;
     last_name: string;

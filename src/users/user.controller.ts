@@ -1,39 +1,57 @@
-import { Controller, Post, HttpCode, Body, Put, Param, Get, HttpException, BadRequestException } from '@nestjs/common';
+import { Controller, Post, HttpCode, Body, Put, Param, Get, HttpException, BadRequestException, Delete, HttpStatus, Query } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserDTO } from './models/user.dto';
+import { CreateUserDTO } from './models/create.user.dto';
 import { IUser } from './models/user.interface';
+import { UpdateResult, DeleteResult } from 'typeorm';
+import { UpdateUserDTO } from './models/update.user.dto';
 
 @Controller('users')
 export class UserController {
     constructor(private userService:UserService){}
 
     @Post()
-    async create(@Body() user:UserDTO): Promise<IUser> {
+    async create(@Body() user:CreateUserDTO): Promise<IUser> {
         return this.userService.createUser(user);
     }
 
-    @Get(':id')
-    async read(@Param('id') id:number):Promise<IUser>{
+    @Get('get/:id')
+    async read(@Param('id') id:number):Promise<IUser> {
         let user=this.userService.readUser(id);
-        if(user!=null){
+        if(user!=null) {
             return user;
         }
-        else{
-            throw new BadRequestException('can\'t find the user');
+        else {
+            throw new HttpException('User not found', HttpStatus.NOT_FOUND);
         }
     }
 
     @Get('all')
     async readAll():Promise<IUser[]>{
-        return this.userService.readAllUsers();
+        let users=this.userService.readAllUsers();
+        if(users!=null) {
+            return users;
+        }
+        else {
+            throw new HttpException("Users not found", HttpStatus.NOT_FOUND);
+        }
     }
+   
+    @Put('update/:id')
+    async update(@Param('id') id:number, @Body() user:UpdateUserDTO):Promise<IUser> {
+        let updatedUser=this.userService.updateUser(id, user);
+        if(updatedUser!=null) {
+            return updatedUser;
+        }
+        else {
+            throw new HttpException("Users not found", HttpStatus.NOT_FOUND);
+        }   
+    }  
 
-   // @Put(':id')
-    //async update(@Param('id') id:string):Promise<IUser>{
 
-    // return this.userService.updateUser(id);
-    //}
-    
+    @Delete('delete/:id')
+    async delete(@Param('id') id:number):Promise<DeleteResult>{
+        return this.userService.deleteUser(id);
+    }
    
 }
 

@@ -4,26 +4,26 @@ import { IUser } from './user.interface';
 
 export class UserDto implements IUser {
   // добавить описания в ApiPropety
-  @ApiProperty()
+  // @ApiProperty()
   id: number;
 
-  @ApiProperty()
+  //  @ApiProperty()
   first_name: string;
 
-  @ApiProperty()
+  // @ApiProperty()
   last_name: string;
 
-  @ApiProperty()
-  @IsEmail()
+  // @ApiProperty()
+  // @IsEmail()
   email: string;
 
-  @ApiProperty()
-  @MinLength(6)
+  // @ApiProperty()
+  //  @MinLength(6)
   password: string;
 
-  @ApiProperty()
+  // @ApiProperty()
   created_at: Date;
 
-  @ApiProperty()
+  // @ApiProperty()
   updated_at: Date;
 }

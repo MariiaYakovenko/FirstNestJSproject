@@ -5,7 +5,8 @@ import { AuthCredentialsInterface } from './auth-credentials.interface';
 dotenv.config({ path: `env/${process.env.NODE_ENV || 'development'}.env` });
 
 class ConfigService {
-  constructor(private env: { [k: string]: string | undefined }) {}
+  constructor(private env: { [k: string]: string | undefined }) {
+  }
 
   private getValue(key: string, throwOnMissing = true): string {
     const value = this.env[key];
@@ -30,7 +31,7 @@ class ConfigService {
     return mode !== 'DEV';
   }
 
-  public getJwtSecret(refresh = false):string {
+  public getJwtSecret(refresh = false): string {
     return this.getValue(refresh ? 'JWT_REFRESH_KEY' : 'JWT_ACCESS_KEY');
   }
 
@@ -69,7 +70,8 @@ class ConfigService {
         // migrationsDir: 'src/migration',
       },
 
-      ssl: this.isProduction(),
+      // ssl: this.isProduction(),
+      ssl: false,
       logger: configService.isProduction() ? 'file' : 'advanced-console',
       // migrationsRun: configService.isProduction(),
     };

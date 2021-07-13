@@ -5,7 +5,7 @@ import { UserDto } from '../users/models/user.dto';
 
 @EntityRepository(UserEntity)
 export class UsersRepository extends Repository<UserEntity> {
-  async createUser(user: IUser): Promise<IUser> {
+  async createUser(user: UserDto): Promise<IUser> {
     return this.save(user);
   }
 

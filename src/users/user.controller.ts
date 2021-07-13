@@ -12,7 +12,6 @@ import {
 import { UserService } from './user.service';
 import { IUser } from './models/user.interface';
 import { UserDto } from './models/user.dto';
-import { CreateUserDto } from './models/create.user.dto';
 
 @Controller('users')
 export class UserController {

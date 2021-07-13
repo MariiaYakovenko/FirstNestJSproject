@@ -4,44 +4,36 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToMany,
-  JoinTable,
-  OneToMany,
   ManyToOne,
-  OneToOne,
+  JoinColumn,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
 
 @Entity('messages')
-export class Message {
+export class Message { // change to MessageEntity
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column()
+  @Column('int4')
   sender_id: number;
 
-  @Column()
+  @ManyToOne(() => UserEntity, (user:UserEntity) => user.outcoming_message)
+  @JoinColumn({ name: 'sender_id' })
+  sender:UserEntity;
+
+  @Column('int4')
   receiver_id: number;
 
-  @CreateDateColumn()
+  @ManyToOne(() => UserEntity, (user:UserEntity) => user.incoming_message)
+  @JoinColumn({ name: 'receiver_id' })
+  receiver:UserEntity;
+
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   created_at: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   updated_at: Date;
 
   @Column()
   message_body: string;
-
-  //декоратор для связи с Entity User (one-to-many)
-  //  @ManyToOne(()=>UserEntity, (user:UserEntity)=>user.outcomingMessage)
-  //  sender:UserEntity;
-
-  //декоратор для связи с Entity User (one-to-many)
-  //  @ManyToOne(()=>UserEntity, (user:UserEntity)=>user.incomingMessage)
-  //  receiver:UserEntity;
-
-  //many-to-one может быть
-
-  //@ManyToOne(()=>User, (chat:User)=>chat.messages)
-  //chat:User;
 }

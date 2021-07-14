@@ -50,19 +50,26 @@ import { identity } from 'rxjs';
 // }
 
 // //второй вариант через sql запросы
+
 // export class UserTable1625668971296 implements MigrationInterface {
-//   name='UserTable1625668971296'
-
-//   public async uo(queryRunner: QueryRunner):Promise<void> {
-//     await queryRunner.query(`CREATE TABLE "user" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(),
-//     "first_name" character varying(30) NOT NULL,
-//     "last_name" character varying(30) NOT NULL, "email" character varying(40) NOT NULL,
-//     "password" character varying(30) NOT NULL,
-//     "createdAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-//     "updatedAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(6), )`);
-//   }
-
-//   public async down(queryRunner: QueryRunner): Promise<void> {
-//     await queryRunner.query(`DROP TABLE "user"`);
-//   }
+//  name='UserTable1625668971296'
+//
+//  public async uo(queryRunner: QueryRunner):Promise<void> {
+//    await queryRunner.query(`CREATE TABLE "user" (
+//      "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
+//      "first_name" character varying(30) NOT NULL,
+//      "last_name" character varying(30) NOT NULL,
+//      "email" character varying(40) NOT NULL UNIQUE,
+//      "password" character varying(30) NOT NULL,
+//      "createdAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+//      "updatedAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(6), )`);
+//    await queryRunner.query(`CREATE TABLE "messages" (
+//      "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
+//      "sender_id"
+// )
+//  }
+//
+//  public async down(queryRunner: QueryRunner): Promise<void> {
+//    await queryRunner.query('DROP TABLE "user"');
+//  }
 // }

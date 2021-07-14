@@ -1,10 +1,10 @@
 import {
   Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany,
 } from 'typeorm';
-import { Message } from 'src/users/entities/message.entity';
-import { IUser } from '../models/user.interface';
+import { MessageEntity } from '../../message/entities/message.entity';
+import { IUser } from '../interfaces/user.interface';
 
-@Entity('users')
+@Entity('user')
 export class UserEntity implements IUser {
     @PrimaryGeneratedColumn('increment')
     id: number;
@@ -29,9 +29,9 @@ export class UserEntity implements IUser {
     @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
     updated_at: Date;
 
-    @OneToMany(() => Message, (message:Message) => message.receiver_id)
-    incoming_message:Message[];
+    @OneToMany(() => MessageEntity, (message:MessageEntity) => message.receiver_id)
+    incoming_message:MessageEntity[];
 
-    @OneToMany(() => Message, (message:Message) => message.sender_id)
-    outcoming_message:Message[];
+    @OneToMany(() => MessageEntity, (message:MessageEntity) => message.sender_id)
+    outcoming_message:MessageEntity[];
 }

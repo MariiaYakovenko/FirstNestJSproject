@@ -7,10 +7,10 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { UserEntity } from './user.entity';
+import { UserEntity } from '../../user/entities/user.entity';
 
 @Entity('messages')
-export class Message { // change to MessageEntity
+export class MessageEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
@@ -24,9 +24,9 @@ export class Message { // change to MessageEntity
   @Column('int4')
   receiver_id: number;
 
-  // @ManyToOne(() => UserEntity, (user:UserEntity) => user.incoming_message)
-  // @JoinColumn({ name: 'receiver_id' })
-  // receiver:UserEntity;
+  @ManyToOne(() => UserEntity, (user:UserEntity) => user.incoming_message)
+  @JoinColumn({ name: 'receiver_id' })
+  receiver:UserEntity;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   created_at: Date;

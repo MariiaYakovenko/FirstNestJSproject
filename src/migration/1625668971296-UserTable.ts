@@ -5,7 +5,7 @@ import { identity } from 'rxjs';
 //   public async up(queryRunner: QueryRunner): Promise<any> {
 //     await queryRunner.createTable(
 //       new Table({
-//         name: 'users',
+//         name: 'user',
 //         columns: [
 //           {
 //             name: 'id',
@@ -45,7 +45,7 @@ import { identity } from 'rxjs';
 //   }
 
 //   public async down(queryRunner: QueryRunner): Promise<any> {
-//     queryRunner.query(`DROP TABLE users`);
+//     queryRunner.query(`DROP TABLE user`);
 //   }
 // }
 
@@ -54,7 +54,7 @@ import { identity } from 'rxjs';
 //   name='UserTable1625668971296'
 
 //   public async uo(queryRunner: QueryRunner):Promise<void> {
-//     await queryRunner.query(`CREATE TABLE "users" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(),
+//     await queryRunner.query(`CREATE TABLE "user" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(),
 //     "first_name" character varying(30) NOT NULL,
 //     "last_name" character varying(30) NOT NULL, "email" character varying(40) NOT NULL,
 //     "password" character varying(30) NOT NULL,
@@ -63,6 +63,6 @@ import { identity } from 'rxjs';
 //   }
 
 //   public async down(queryRunner: QueryRunner): Promise<void> {
-//     await queryRunner.query(`DROP TABLE "users"`);
+//     await queryRunner.query(`DROP TABLE "user"`);
 //   }
 // }

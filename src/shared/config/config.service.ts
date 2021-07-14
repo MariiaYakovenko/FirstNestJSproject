@@ -1,6 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
-import { AuthCredentialsInterface } from './auth-credentials.interface';
+import { AuthCredentialsInterface } from '../interfaces/auth-credentials.interface';
 
 dotenv.config({ path: `env/${process.env.NODE_ENV || 'development'}.env` });
 
@@ -53,27 +53,22 @@ class ConfigService {
   public getTypeOrmConfig(): TypeOrmModuleOptions {
     return {
       type: 'postgres',
-
       host: this.getValue('POSTGRES_HOST'),
       port: parseInt(this.getValue('POSTGRES_PORT'), 10),
       username: this.getValue('POSTGRES_USER'),
       password: this.getValue('POSTGRES_PASSWORD'),
       database: this.getValue('POSTGRES_DATABASE'),
-      // настроить правильный путь до файла с окончанием entity.ts
-      entities: [`${__dirname}/../../../*.entity{.ts,.js}`],
-      synchronize: true,
-      // migrationsTableName: 'migration',
-
-      // migrations: ['dist/migration/*.js'], // настроить путь к папке с миграциями
-
+      entities: [`${__dirname}/../../**/**/**/*.entity{.ts,.js}`],
+      synchronize: false,
+      migrationsTableName: 'migration',
+      migrations: ['dist/migration/*.js'],
       cli: {
-        // migrationsDir: 'src/migration',
+        migrationsDir: 'src/migration',
       },
-
-      // ssl: this.isProduction(),
+      keepConnectionAlive: true,
       ssl: false,
       logger: configService.isProduction() ? 'file' : 'advanced-console',
-      // migrationsRun: configService.isProduction(),
+      migrationsRun: configService.isProduction(),
     };
   }
 }

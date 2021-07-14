@@ -10,10 +10,10 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { IUser } from './models/user.interface';
-import { UserDto } from './models/user.dto';
+import { IUser } from './interfaces/user.interface';
+import { UserDto } from './dto/user.dto';
 
-@Controller('users')
+@Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
 

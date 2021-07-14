@@ -1,6 +1,6 @@
 export const ROUTES = {
   USER: {
-    MAIN: '/users',
+    MAIN: '/user',
   },
   AUTH: {
     MAIN: '/auth',

@@ -1,10 +1,10 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { UserEntity } from 'src/users/entities/user.entity';
-import { IUser } from 'src/users/models/user.interface';
-import { UserDto } from '../users/models/user.dto';
+import { UserEntity } from 'src/modules/user/entities/user.entity';
+import { IUser } from 'src/modules/user/interfaces/user.interface';
+import { UserDto } from '../dto/user.dto';
 
 @EntityRepository(UserEntity)
-export class UsersRepository extends Repository<UserEntity> {
+export class UserRepository extends Repository<UserEntity> {
   async createUser(user: UserDto): Promise<IUser> {
     return this.save(user);
   }

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, MinLength } from 'class-validator';
-import { IUser } from './user.interface';
+import { IUser } from '../interfaces/user.interface';
 
 export class UserDto implements IUser {
   // добавить описания в ApiPropety

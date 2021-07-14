@@ -8,9 +8,10 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { UserEntity } from '../../user/entities/user.entity';
+import { IMessage } from '../interfaces/message.interface';
 
 @Entity('messages')
-export class MessageEntity {
+export class MessageEntity implements IMessage {
   @PrimaryGeneratedColumn('increment')
   id: number;
 

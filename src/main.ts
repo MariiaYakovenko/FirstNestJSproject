@@ -10,20 +10,15 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(configService.getPort());
 
-  // app.use(morgan('tiny'));
-  // const options = new DocumentBuilder()
-  //   .setTitle('ThePij Project REST Docs')
-  //   .setDescription('REST docs for ThePij Project Api')
+  // const config=new DocumentBuilder()
+  //   .setTitle('Users and messages')
+  //   .setDescription('Users and messages API description')
   //   .setVersion('1.0')
-  //   .addTag(ROUTES.USER.MAIN)
-  //   .addTag(ROUTES.AUTH.MAIN)
-  //   .addTag(ROUTES.PROJECT.MAIN)
-  //   .addBearerAuth()
+  //   .addTag('users')
   //   .build();
-  // const document = SwaggerModule.createDocument(app, options);
-  // SwaggerModule.setup('/docs', app, document);
-  // app.useGlobalFilters(new DispatchError());
+  // const document=SwaggerModule.createDocument(app,config);
+  // SwaggerModule.setup('api', app, document);
   //
-  // await app.listen(configService.getPort());
+  // await  app.listen(3000);
 }
 bootstrap();

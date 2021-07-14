@@ -17,46 +17,45 @@ import { UserDto } from './dto/user.dto';
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @Post()
-  async create(@Body() user: UserDto): Promise<IUser> {
+   @Post()
+  async createUser(@Body() user: UserDto): Promise<IUser> {
     return this.userService.createUser(user);
   }
 
   @Get('get/:id')
-  async getUser(@Param('id') id: number): Promise<IUser> {
-    const user = this.userService.getUser(id);
-    if (user) {
-      return user;
-    }
+   async getUser(@Param('id') id: number): Promise<IUser> {
+     const user = this.userService.getUser(id);
+     if (user) {
+       return user;
+     }
 
-    throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-  }
+     throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+   }
 
-  @Get('all')
+   @Get('all')
   async getAllUsers(): Promise<IUser[]> {
     const users = this.userService.getAllUsers();
     if (users) {
       return users;
     }
-
     throw new HttpException('Users not found', HttpStatus.NOT_FOUND);
   }
+   // починить put/update, чтоб изменяемые параметры были опциональны
+   @Put('update/:id')
+   async updateUser(
+     @Param('id') id: number,
+     @Body() user: UserDto,
+   ): Promise<IUser> {
+     const updatedUser = this.userService.updateUser(id, user);
+     if (updatedUser) {
+       return updatedUser;
+     }
 
-  @Put('update/:id')
-  async update(
-    @Param('id') id: number,
-    @Body() user: UserDto,
-  ): Promise<IUser> {
-    const updatedUser = this.userService.updateUser(id, user);
-    if (updatedUser) {
-      return updatedUser;
-    }
+     throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+   }
 
-    throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-  }
-
-  @Delete('delete/:id')
-  async delete(@Param('id') id: number): Promise<boolean> {
-    return this.userService.deleteUser(id);
-  }
+   @Delete('delete/:id')
+   async deleteUser(@Param('id') id: number): Promise<void> {
+     await this.userService.deleteUser(id);
+   }
 }

@@ -1,35 +1,74 @@
-import { EntityRepository, Repository } from 'typeorm';
+import {
+  createQueryBuilder, EntityRepository, getConnection, QueryBuilder, Repository,
+} from 'typeorm';
 import { UserEntity } from 'src/modules/user/entities/user.entity';
 import { IUser } from 'src/modules/user/interfaces/user.interface';
+import { InjectRepository } from '@nestjs/typeorm';
 import { UserDto } from '../dto/user.dto';
+import { IUserRepository } from './user.repository.interface';
 
 @EntityRepository(UserEntity)
-export class UserRepository extends Repository<UserEntity> {
-  async createUser(user: UserDto): Promise<IUser> {
-    return this.save(user);
+export class UserRepository extends Repository<UserEntity> implements IUserRepository {
+  async createUser(user: UserDto) {
+    const createdUser = await getConnection().createQueryBuilder()
+      .insert()
+      .into(UserEntity)
+      .values([{
+        first_name: user.first_name, last_name: user.last_name, email: user.email, password: user.password,
+      }])
+      .execute();
   }
 
-  async getUser(id: number): Promise<IUser> {
-    return this.findOne(id);
+  async getUser(id:number):Promise<IUser> {
+    const user = await getConnection().createQueryBuilder()
+      .select('user')
+      .from(UserEntity, 'user')
+      .where('user.id=:id', { id })
+      .getOne();
+    return user;
   }
 
-  async getAllUsers(): Promise<IUser[]> {
-    return this.find();
+  async getAllUsers():Promise<IUser[]> {
+    const users = await getConnection().createQueryBuilder()
+      .from(UserEntity, 'user')
+      .getRawMany();
+    return users;
   }
 
-  async updateUser(id: number, user: UserDto): Promise<IUser> {
-    await this.update(id, user);
-    return this.findOne(id);
+  async updateUser(id:number, user:UserDto):Promise<void> {
+    const updatedUser = await getConnection().createQueryBuilder()
+      .update(UserEntity)
+      .set({
+        first_name: user.first_name, last_name: user.last_name, email: user.email, password: user.password,
+      })
+      .execute();
   }
 
-  async deleteUser(id: number): Promise<boolean> {
-    let isUserDeleted = false;
-    const countBeforeDeleting = await this.count();
-    await this.delete(id);
-    const countAfterDeleting = await this.count();
-    if (countBeforeDeleting > countAfterDeleting) {
-      isUserDeleted = true;
-    }
-    return isUserDeleted;
+  async deleteUser(id:number):Promise<void> {
+    await getConnection().createQueryBuilder()
+      .delete()
+      .from(UserEntity)
+      .where('id=:id', { id })
+      .execute();
   }
+  // async findOne(id: number): Promise<IUser> {
+  //   const user = await getConnection().createQueryBuilder()
+  //     .select('user')
+  //     .from(UserEntity, 'user')
+  //     .where('user.id=:id', { id })
+  //     .getOne();
+  //   return user;
+  // }
+
+  //  async getAllUsers(): Promise<IUser[]> {
+  //    return this.find();
+  //  }
+  //
+  //  async updateUser(id: number, user: UserDto): Promise<void> {
+  //   await this.update(id, user);
+  //  }
+  //
+  // async deleteUser(id: number): Promise<void> {
+  //    await this.delete(id);
+  //  }
 }

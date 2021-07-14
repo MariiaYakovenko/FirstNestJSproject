@@ -8,26 +8,28 @@ import { UserDto } from './dto/user.dto';
 export class UserService {
   constructor(
     @InjectRepository(UserRepository)
-    private readonly usersRepository: UserRepository,
+    private readonly userRepository: UserRepository,
   ) {}
 
   async createUser(user: UserDto): Promise<IUser> {
-    return this.usersRepository.createUser(user);
+    await this.userRepository.createUser(user);
+    return this.getUser(user.id);
   }
 
   async getUser(id: number): Promise<IUser> {
-    return this.usersRepository.getUser(id);
+    return this.userRepository.findOne(id);
   }
 
   async getAllUsers(): Promise<IUser[]> {
-    return this.usersRepository.getAllUsers();
+    return this.userRepository.getAllUsers();
   }
 
   async updateUser(id: number, user: UserDto): Promise<IUser> {
-    return this.usersRepository.updateUser(id, user);
+    await this.userRepository.updateUser(id, user);
+    return this.getUser(id);
   }
 
-  async deleteUser(id: number): Promise<boolean> {
-    return this.usersRepository.deleteUser(id);
+  async deleteUser(id: number): Promise<void> {
+    await this.userRepository.deleteUser(id);
   }
 }

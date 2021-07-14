@@ -51,24 +51,4 @@ export class UserRepository extends Repository<UserEntity> implements IUserRepos
       .where('id=:id', { id })
       .execute();
   }
-  // async findOne(id: number): Promise<IUser> {
-  //   const user = await getConnection().createQueryBuilder()
-  //     .select('user')
-  //     .from(UserEntity, 'user')
-  //     .where('user.id=:id', { id })
-  //     .getOne();
-  //   return user;
-  // }
-
-  //  async getAllUsers(): Promise<IUser[]> {
-  //    return this.find();
-  //  }
-  //
-  //  async updateUser(id: number, user: UserDto): Promise<void> {
-  //   await this.update(id, user);
-  //  }
-  //
-  // async deleteUser(id: number): Promise<void> {
-  //    await this.delete(id);
-  //  }
 }

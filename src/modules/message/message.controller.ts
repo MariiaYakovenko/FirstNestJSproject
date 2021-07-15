@@ -1,5 +1,5 @@
 import {
-  Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put,
+  Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Post, Put,
 } from '@nestjs/common';
 import { MessageDto } from './dto/message.dto';
 import { IMessage } from './interfaces/message.interface';
@@ -12,21 +12,25 @@ export class MessageController {
   constructor(private messageService:MessageService) {}
 
   @Post()
+  @HttpCode(201)
   async createMessage(@Body()message:MessageDto):Promise<IMessage> {
     return this.messageService.createMessage(message);
   }
 
    @Get('get/:id')
+   @HttpCode(200)
   async getMessage(@Param('id') id: number): Promise<IMessage> {
     return this.messageService.getMessage(id);
   }
 
    @Get('all')
-   async getAllUsers(): Promise<IMessage[]> {
+   @HttpCode(200)
+   async getAllMessages(): Promise<IMessage[]> {
      return this.messageService.getAllMessages();
    }
 
    @Put('update/:id')
+   @HttpCode(200)
    async updateMessage(
      @Param('id') id: number,
      @Body() message: MessageDto,
@@ -35,6 +39,7 @@ export class MessageController {
    }
 
    @Delete('delete/:id')
+   @HttpCode(200)
    async deleteMessage(@Param('id') id: number): Promise<void> {
      await this.messageService.deleteMessage(id);
    }

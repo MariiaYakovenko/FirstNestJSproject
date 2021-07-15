@@ -7,7 +7,7 @@ import {
   Get,
   HttpException,
   Delete,
-  HttpStatus,
+  HttpStatus, HttpCode,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { IUser } from './interfaces/user.interface';
@@ -18,30 +18,25 @@ export class UserController {
   constructor(private userService: UserService) {}
 
    @Post()
+   @HttpCode(201)
   async createUser(@Body() user: UserDto): Promise<IUser> {
     return this.userService.createUser(user);
   }
 
   @Get('get/:id')
+  @HttpCode(200)
    async getUser(@Param('id') id: number): Promise<IUser> {
-     const user = this.userService.getUser(id);
-     if (user) {
-       return user;
-     }
-
-     throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+     return this.userService.getUser(id);
    }
 
    @Get('all')
+   @HttpCode(200)
   async getAllUsers(): Promise<IUser[]> {
-    const users = this.userService.getAllUsers();
-    if (users) {
-      return users;
-    }
-    throw new HttpException('Users not found', HttpStatus.NOT_FOUND);
+    return this.userService.getAllUsers();
   }
-   // починить put/update, чтоб изменяемые параметры были опциональны
+
    @Put('update/:id')
+   @HttpCode(200)
    async updateUser(
      @Param('id') id: number,
      @Body() user: UserDto,
@@ -55,6 +50,7 @@ export class UserController {
    }
 
    @Delete('delete/:id')
+   @HttpCode(200)
    async deleteUser(@Param('id') id: number): Promise<void> {
      await this.userService.deleteUser(id);
    }

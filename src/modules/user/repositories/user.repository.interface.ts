@@ -6,9 +6,9 @@ import { IMessage } from '../../message/interfaces/message.interface';
 import { MessageDto } from '../../message/dto/message.dto';
 
 export interface IUserRepository extends IGlobalRepository<UserEntity> {
-   createUser(user: UserDto);
-   getUser(id:number):Promise<IUser>;
-   getAllUsers():Promise<IUser[]>;
-   updateUser(id:number, user:UserDto):Promise<void>;
-   deleteUser(id:number):Promise<void>;
+   //createUser(user: UserDto);
+   //getUser(id:number):Promise<IUser>;
+   //getAllUsers():Promise<IUser[]>;
+   //updateUser(id:number, user:UserDto):Promise<void>;
+   //deleteUser(id:number):Promise<void>;
 }

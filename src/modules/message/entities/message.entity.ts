@@ -35,6 +35,6 @@ export class MessageEntity implements IMessage {
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   updated_at: Date;
 
-  @Column()
+  @Column({ type: 'varchar' })
   message_body: string;
 }

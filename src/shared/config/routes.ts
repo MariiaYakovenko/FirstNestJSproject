@@ -1,0 +1,19 @@
+export const ROUTES = {
+  USER: {
+    MAIN: '/user',
+    GET_USER: '/get/:id',
+    GET_ALL_USERS: '/all',
+    UPDATE: '/update/:id',
+    DELETE: '/delete/:id',
+  },
+  MESSAGE: {
+    MAIN: '/message',
+    GET_MESSAGE: '/get/:id',
+    GET_ALL_MESSAGES: '/all',
+    UPDATE: 'update/:id',
+    DELETE: 'delete/:id',
+  },
+  API_DOCUMENTATION: {
+    MAIN: 'api/docs',
+  },
+};

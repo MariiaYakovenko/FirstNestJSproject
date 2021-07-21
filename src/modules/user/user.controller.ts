@@ -5,20 +5,21 @@ import {
   Put,
   Param,
   Get,
-  Delete, HttpStatus, UsePipes,
+  Delete, HttpStatus, UseFilters, Query, HttpCode,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
-import { IUser } from './interfaces/user.interface';
 import { UserDto } from './dto/user.dto';
 import { ROUTES } from '../../shared/config/routes';
 import { ParamDto } from '../../shared/dto/param.dto';
 import { CreateUserDto } from './dto/create.user.dto';
 import { UpdateUserDto } from './dto/update.user.dto';
-import { MessageDto } from '../message/dto/message.dto';
+import { HttpExceptionFilter } from '../../shared/filters/http-exception.filter';
+import { PaginationQueryParamsDto } from '../../shared/dto/pagination-query-params.dto';
 
 @Controller(ROUTES.USER.MAIN)
-@ApiResponse({ description: 'User controller' })
+@UseFilters(HttpExceptionFilter)
+@ApiTags('Users')
 export class UserController {
   constructor(private userService: UserService) {}
 
@@ -31,7 +32,6 @@ export class UserController {
     description: 'User created',
     type: UserDto,
   })
-  @UsePipes()
   @Post()
   async createUser(@Body() user: CreateUserDto): Promise<UserDto> {
     return this.userService.createUser(user);
@@ -46,8 +46,8 @@ export class UserController {
     description: 'User by id gotten',
     type: UserDto,
   })
-   @Get(ROUTES.USER.GET_USER)
-  async getUser(@Param('id') id: ParamDto): Promise<UserDto> {
+  @Get(ROUTES.USER.GET_USER)
+  async getUser(@Param() { id }: ParamDto): Promise<UserDto> {
     return this.userService.getUser(id);
   }
 
@@ -58,11 +58,12 @@ export class UserController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Users gotten',
-    type: MessageDto,
+    type: UserDto,
   })
-   @Get(ROUTES.USER.GET_ALL_USERS)
-  async getAllUsers(): Promise<UserDto[]> {
-    return this.userService.getAllUsers();
+
+  @Get(ROUTES.USER.GET_ALL_USERS)
+  async getAllUsers(@Query() paginationParams: PaginationQueryParamsDto): Promise<UserDto[]> {
+    return this.userService.getAllUsers(paginationParams);
   }
 
    @ApiOperation({
@@ -74,12 +75,12 @@ export class UserController {
     description: 'User updated',
     type: UserDto,
   })
-  @UsePipes()
-    @Put(ROUTES.USER.UPDATE)
+   @Put(ROUTES.USER.UPDATE)
   async updateUser(
-     @Param('id') id: ParamDto,
+     @Param() { id }: ParamDto,
      @Body() user: UpdateUserDto,
-  ): Promise<IUser> {
+  ): Promise<UserDto> {
+    console.log('bla');
     return this.userService.updateUser(id, user);
   }
 
@@ -88,11 +89,12 @@ export class UserController {
     description: 'Deletes an existing user',
   })
   @ApiResponse({
-    status: HttpStatus.OK,
+    status: HttpStatus.NO_CONTENT,
     description: 'User deleted',
   })
-    @Delete(ROUTES.USER.DELETE)
-   async deleteUser(@Param('id') id: ParamDto): Promise<void> {
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete(ROUTES.USER.DELETE)
+   async deleteUser(@Param() { id }: ParamDto): Promise<void> {
      await this.userService.deleteUser(id);
    }
 }

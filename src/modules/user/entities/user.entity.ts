@@ -29,9 +29,9 @@ export class UserEntity implements IUser {
     @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
     updated_at: Date;
 
-    @OneToMany(() => MessageEntity, (message:MessageEntity) => message.receiver_id)
+    @OneToMany(() => MessageEntity, (message:MessageEntity) => message.receiver)
     incoming_message:MessageEntity[];
 
-    @OneToMany(() => MessageEntity, (message:MessageEntity) => message.sender_id)
+    @OneToMany(() => MessageEntity, (message:MessageEntity) => message.sender)
     outcoming_message:MessageEntity[];
 }

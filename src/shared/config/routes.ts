@@ -13,7 +13,5 @@ export const ROUTES = {
     UPDATE: 'update/:id',
     DELETE: 'delete/:id',
   },
-  API_DOCUMENTATION: {
-    MAIN: 'api/docs',
-  },
+  MAIN: 'api/docs',
 };

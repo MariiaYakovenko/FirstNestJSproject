@@ -3,7 +3,7 @@ import {
   IsEmail, IsNotEmpty, IsString, Length,
 } from 'class-validator';
 import { IUser } from '../interfaces/user.interface';
-import { MessageEntity } from '../../message/entities/message.entity';
+import { MessageDto } from '../../message/dto/message.dto';
 
 export class UserDto implements IUser {
    @ApiProperty({
@@ -11,20 +11,20 @@ export class UserDto implements IUser {
      type: Number,
      uniqueItems: true,
    })
-     id: number;
+   id: number;
 
-    @ApiProperty({
-      description: 'User\'s first name',
-      type: String,
-      required: true,
-      nullable: false,
-      minLength: 1,
-      maxLength: 30,
-    })
-    @IsString()
-    @IsNotEmpty()
-    @Length(1, 30)
-     first_name: string;
+   @ApiProperty({
+     description: 'User\'s first name',
+     type: String,
+     required: true,
+     nullable: false,
+     minLength: 1,
+     maxLength: 30,
+   })
+   @IsString()
+   @IsNotEmpty()
+   @Length(1, 30)
+   first_name: string;
 
    @ApiProperty({
      description: 'User\'s last name',
@@ -37,20 +37,20 @@ export class UserDto implements IUser {
    @IsString()
    @IsNotEmpty()
    @Length(1, 30)
-     last_name: string;
+   last_name: string;
 
-    @ApiProperty({
-      description: 'User\'s email',
-      type: String,
-      required: true,
-      nullable: false,
-      uniqueItems: true,
-      minLength: 10,
-    })
-    @IsEmail()
-    @IsString()
-    @IsNotEmpty()
-     email: string;
+   @ApiProperty({
+     description: 'User\'s email',
+     type: String,
+     required: true,
+     nullable: false,
+     uniqueItems: true,
+     minLength: 10,
+   })
+   @IsEmail()
+   @IsString()
+   @IsNotEmpty()
+   email: string;
 
    @ApiProperty({
      description: 'User\'s password',
@@ -63,29 +63,29 @@ export class UserDto implements IUser {
    @IsString()
    @IsNotEmpty()
    @Length(6, 30)
-    password: string;
+   password: string;
 
    @ApiProperty({
      description: 'Time at what user was created',
      type: Date,
    })
-    created_at: Date;
+   created_at: Date;
 
    @ApiProperty({
      description: 'Time at what user was updated',
      type: Date,
    })
-     updated_at: Date;
+   updated_at: Date;
 
    @ApiProperty({
      description: 'Array of received messages',
-     type: MessageEntity,
+     type: MessageDto,
    })
-    incoming_message: MessageEntity[];
+   incoming_message: MessageDto[];
 
    @ApiProperty({
      description: 'Array of sent messages',
-     type: MessageEntity,
+     type: MessageDto,
    })
-     outcoming_message: MessageEntity[];
+   outcoming_message: MessageDto[];
 }

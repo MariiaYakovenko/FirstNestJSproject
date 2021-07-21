@@ -73,7 +73,6 @@ class ConfigService {
   }
 }
 
-// singleton аля
 const configService = new ConfigService(process.env).ensureValues([
   'POSTGRES_HOST',
   'POSTGRES_PORT',

@@ -1,4 +1,4 @@
-import { MessageEntity } from '../../message/entities/message.entity';
+import { IMessage } from '../../message/interfaces/message.interface';
 
 export interface IUser {
   id: number;
@@ -8,6 +8,6 @@ export interface IUser {
   password: string;
   created_at: Date;
   updated_at: Date;
-  incoming_message: MessageEntity[];
-  outcoming_message: MessageEntity[];
+  incoming_message: IMessage[];
+  outcoming_message: IMessage[];
 }

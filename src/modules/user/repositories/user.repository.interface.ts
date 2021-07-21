@@ -3,5 +3,5 @@ import { UserEntity } from '../entities/user.entity';
 import { IUser } from '../interfaces/user.interface';
 
 export interface IUserRepository extends IGlobalRepository<UserEntity> {
-  checkUserByEmail(email:string):Promise<IUser>;
+  getUserByEmail(email:string):Promise<IUser>;
 }

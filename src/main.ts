@@ -7,7 +7,10 @@ import { ROUTES } from './shared/config/routes';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({
+    transform: true,
+    transformOptions: { enableImplicitConversion: true, exposeDefaultValues: true },
+  }));
 
   const config = new DocumentBuilder()
     .setTitle('Users and messages')
@@ -16,7 +19,7 @@ async function bootstrap() {
     .addTag('users')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup(ROUTES.API_DOCUMENTATION.MAIN, app, document);
+  SwaggerModule.setup(ROUTES.MAIN, app, document);
 
   await app.listen(configService.getPort());
 }

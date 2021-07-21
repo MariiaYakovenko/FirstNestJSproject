@@ -7,12 +7,11 @@ import { IUserRepository } from './user.repository.interface';
 
 @EntityRepository(UserEntity)
 export class UserRepository extends Repository<UserEntity> implements IUserRepository {
-  async checkUserByEmail(email:string):Promise<IUser> {
-    const user = await this.createQueryBuilder()
+  async getUserByEmail(email:string):Promise<IUser> {
+    return this.createQueryBuilder()
       .select('user')
       .from(UserEntity, 'user')
       .where('user.email=:email', { email })
       .getOne();
-    return user;
   }
 }

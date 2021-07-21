@@ -9,7 +9,7 @@ export const ROUTES = {
   MESSAGE: {
     MAIN: '/message',
     GET_MESSAGE: '/get/:id',
-    GET_ALL_MESSAGES: '/all',
+    GET_MESSAGES_OF_TWO_USERS: '/user',
     UPDATE: 'update/:id',
     DELETE: 'delete/:id',
   },

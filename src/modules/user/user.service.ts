@@ -25,7 +25,10 @@ export class UserService {
   }
 
   async getAllUsers(paginationParams: PaginationQueryParamsType): Promise<IUser[]> {
-    const users = await this.userRepository.find({ skip: ((paginationParams.page - 1) * paginationParams.per_page), take: paginationParams.per_page });
+    const users = await this.userRepository.find({
+      skip: ((paginationParams.page - 1) * paginationParams.per_page),
+      take: paginationParams.per_page,
+    });
     if (!users.length) throw new HttpException('Users not found', HttpStatus.NOT_FOUND);
     return users;
   }

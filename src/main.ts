@@ -16,7 +16,6 @@ async function bootstrap() {
     .setTitle('Users and messages')
     .setDescription('Users and messages API description')
     .setVersion('1.0')
-    .addTag('users')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup(ROUTES.MAIN, app, document);

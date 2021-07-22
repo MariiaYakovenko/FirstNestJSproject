@@ -1,6 +1,5 @@
 import {
   Controller,
-  Post,
   Body,
   Put,
   Param,
@@ -12,7 +11,6 @@ import { UserService } from './user.service';
 import { UserDto } from './dto/user.dto';
 import { ROUTES } from '../../shared/config/routes';
 import { ParamDto } from '../../shared/dto/param.dto';
-import { CreateUserDto } from './dto/create.user.dto';
 import { UpdateUserDto } from './dto/update.user.dto';
 import { HttpExceptionFilter } from '../../shared/filters/http-exception.filter';
 import { PaginationQueryParamsDto } from '../../shared/dto/pagination-query-params.dto';
@@ -22,20 +20,6 @@ import { PaginationQueryParamsDto } from '../../shared/dto/pagination-query-para
 @ApiTags('Users')
 export class UserController {
   constructor(private userService: UserService) {}
-
-  @ApiOperation({
-    summary: 'Creates a user',
-    description: 'Creates a user',
-  })
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'User created',
-    type: UserDto,
-  })
-  @Post()
-  async createUser(@Body() user: CreateUserDto): Promise<UserDto> {
-    return this.userService.createUser(user);
-  }
 
   @ApiOperation({
     summary: 'Gets a user by id',

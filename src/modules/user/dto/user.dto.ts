@@ -57,12 +57,9 @@ export class UserDto implements IUser {
      type: String,
      required: true,
      nullable: false,
-     minLength: 6,
-     maxLength: 30,
    })
    @IsString()
    @IsNotEmpty()
-   @Length(6, 30)
    password: string;
 
    @ApiProperty({

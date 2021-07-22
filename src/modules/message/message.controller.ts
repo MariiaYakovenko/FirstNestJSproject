@@ -1,5 +1,5 @@
 import {
-  Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query, UseFilters,
+  Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query, UseFilters, UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { MessageDto } from './dto/message.dto';
@@ -11,6 +11,7 @@ import { UpdateMessageDto } from './dto/update.message.dto';
 import { HttpExceptionFilter } from '../../shared/filters/http-exception.filter';
 import { SenderAndReceiverDto } from './dto/sender-and-receiver.dto';
 import { PaginationQueryParamsDto } from '../../shared/dto/pagination-query-params.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
  @Controller(ROUTES.MESSAGE.MAIN)
  @UseFilters(HttpExceptionFilter)
@@ -27,6 +28,7 @@ export class MessageController {
      description: 'Message created',
      type: MessageDto,
    })
+   @UseGuards(JwtAuthGuard)
    @Post()
   async createMessage(@Body() message:CreateMessageDto):Promise<MessageDto> {
     return this.messageService.createMessage(message);
@@ -41,6 +43,7 @@ export class MessageController {
     description: 'Message by id gotten',
     type: MessageDto,
   })
+  @UseGuards(JwtAuthGuard)
    @Get(ROUTES.MESSAGE.GET_MESSAGE)
    async getMessage(@Param() { id }: ParamDto): Promise<MessageDto> {
      return this.messageService.getMessage(id);
@@ -55,6 +58,7 @@ export class MessageController {
      description: 'Message updated',
      type: MessageDto,
    })
+   @UseGuards(JwtAuthGuard)
    @Put(ROUTES.MESSAGE.UPDATE)
   async updateMessage(
      @Param() { id }: ParamDto,
@@ -71,6 +75,7 @@ export class MessageController {
      status: HttpStatus.NO_CONTENT,
      description: 'Message deleted',
    })
+   @UseGuards(JwtAuthGuard)
    @HttpCode(HttpStatus.NO_CONTENT)
    @Delete(ROUTES.MESSAGE.DELETE)
    async deleteMessage(@Param() { id }: ParamDto): Promise<void> {
@@ -86,6 +91,7 @@ export class MessageController {
     description: 'Messages gotten',
     type: MessageDto,
   })
+  @UseGuards(JwtAuthGuard)
   @Get(ROUTES.MESSAGE.GET_MESSAGES_OF_TWO_USERS)
    async getMessagesOfTwoUsers(@Query() { sender_id }:SenderAndReceiverDto,
                                @Query() { receiver_id }:SenderAndReceiverDto,

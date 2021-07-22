@@ -13,5 +13,9 @@ export const ROUTES = {
     UPDATE: 'update/:id',
     DELETE: 'delete/:id',
   },
+  AUTH: {
+    MAIN: '/auth',
+    LOGIN: '/sign_in',
+  },
   MAIN: 'api/docs',
 };

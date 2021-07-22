@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserRepository } from 'src/modules/user/repositories/user.repository';
+import * as bcrypt from 'bcrypt';
 import { IUser } from './interfaces/user.interface';
 import { CreateUserType } from './types/create.user.type';
 import { UpdateUserType } from './types/update.user.type';
@@ -11,12 +12,6 @@ export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
   ) {}
-
-  async createUser(user: CreateUserType): Promise<IUser> {
-    const userFromDb = await this.userRepository.getUserByEmail(user.email);
-    if (userFromDb) throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
-    return this.userRepository.save(user);
-  }
 
   async getUser(id: number): Promise<IUser> {
     const user = await this.userRepository.findOne(id);

@@ -1,5 +1,5 @@
 import {
-  Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany,
+  Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, BeforeInsert,
 } from 'typeorm';
 import { MessageEntity } from '../../message/entities/message.entity';
 import { IUser } from '../interfaces/user.interface';
@@ -18,9 +18,15 @@ export class UserEntity implements IUser {
     @Column({
       type: 'varchar', length: 40, unique: true, nullable: false,
     })
+
     email: string;
 
-    @Column({ type: 'varchar', length: 30 })
+    // @BeforeInsert()
+    // emailToLowerCase() {
+    //   this.email = this.email.toLowerCase();
+    // }
+
+    @Column({ type: 'varchar' })
     password: string;
 
     @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })

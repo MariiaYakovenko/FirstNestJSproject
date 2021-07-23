@@ -80,7 +80,6 @@ export class UserController {
      @Param() { id }: ParamDto,
      @Body() user: UpdateUserDto,
   ): Promise<UserDto> {
-    console.log('bla');
     return this.userService.updateUser(id, user);
   }
 

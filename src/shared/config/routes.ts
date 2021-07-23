@@ -13,5 +13,5 @@ export const ROUTES = {
     UPDATE: 'update/:id',
     DELETE: 'delete/:id',
   },
-  MAIN: 'api/docs',
+  MAIN: '/api',
 };

@@ -8,6 +8,6 @@ export interface IUser {
   password: string;
   created_at: Date;
   updated_at: Date;
-  incoming_message: IMessage[];
-  outcoming_message: IMessage[];
+  incoming_message?: IMessage[];
+  outcoming_message?: IMessage[];
 }

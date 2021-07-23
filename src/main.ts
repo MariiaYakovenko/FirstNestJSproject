@@ -16,7 +16,7 @@ async function bootstrap() {
     .addTag('users')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup(ROUTES.MAIN, app, document);
+  SwaggerModule.setup(`${ROUTES.MAIN}/docs`, app, document);
 
   await app.listen(configService.getPort());
 }

@@ -21,10 +21,6 @@ export class UserEntity implements IUser {
 
     email: string;
 
-    // @BeforeInsert()
-    // emailToLowerCase() {
-    //   this.email = this.email.toLowerCase();
-    // }
 
     @Column({ type: 'varchar' })
     password: string;

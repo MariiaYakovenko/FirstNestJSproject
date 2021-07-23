@@ -1,5 +1,4 @@
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { configService } from './shared/config/config.service';
@@ -16,7 +15,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup(ROUTES.MAIN, app, document);
+  SwaggerModule.setup(`${ROUTES.MAIN}/docs`, app, document);
 
   await app.listen(configService.getPort());
 }

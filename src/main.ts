@@ -8,6 +8,7 @@ import { ROUTES } from './shared/config/routes';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(configService.getValidationOptions());
+  app.setGlobalPrefix(ROUTES.MAIN);
 
   const config = new DocumentBuilder()
     .setTitle('Users and messages')

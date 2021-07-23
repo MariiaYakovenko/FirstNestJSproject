@@ -15,7 +15,7 @@ export class PaginationQueryParamsDto {
   @Min(1)
   @IsPositive()
   @IsOptional()
-  per_page: number = 10;
+  per_page = 10;
 
   @ApiProperty({
     description: 'page to return',
@@ -28,5 +28,5 @@ export class PaginationQueryParamsDto {
   @Min(1)
   @IsPositive()
   @IsOptional()
-  page: number = 1;
+  page = 1;
 }

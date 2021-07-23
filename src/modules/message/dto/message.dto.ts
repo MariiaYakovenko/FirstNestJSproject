@@ -1,4 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsInt, IsNotEmpty, IsPositive, IsString, Length,
+} from 'class-validator';
 import { IMessage } from '../interfaces/message.interface';
 import { UserEntity } from '../../user/entities/user.entity';
 
@@ -15,6 +18,9 @@ export class MessageDto implements IMessage {
     required: true,
     nullable: false,
   })
+  @IsInt()
+  @IsPositive()
+  @IsNotEmpty()
   sender_id: number;
 
   @ApiProperty({
@@ -29,6 +35,8 @@ export class MessageDto implements IMessage {
     required: true,
     nullable: false,
   })
+  @IsInt()
+  @IsPositive()
   receiver_id: number;
 
   @ApiProperty({
@@ -55,6 +63,9 @@ export class MessageDto implements IMessage {
     required: true,
     nullable: false,
     minLength: 1,
+    maxLength: 1000,
   })
+  @IsString()
+  @Length(1, 1000)
   message_body: string;
 }

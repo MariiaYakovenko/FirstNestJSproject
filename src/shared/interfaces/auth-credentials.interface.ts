@@ -3,4 +3,3 @@ export interface AuthCredentialsInterface {
     clientSecret: string;
 }
 
-// что такое  clientSecret

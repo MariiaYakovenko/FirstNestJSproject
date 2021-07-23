@@ -21,7 +21,8 @@
     "src/shared/errors/**/*.ts",
     "src/migration/**/*.ts",
     "src/modules/**/*.ts",
-    "test/**/*.ts"
+    "test/**/*.ts",
+    "dist/modules/user/types/user.type.d.ts"
   ],
   "exclude": [
     "node_modules"

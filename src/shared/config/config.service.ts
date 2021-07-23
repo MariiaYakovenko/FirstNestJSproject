@@ -1,5 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
+import { ValidationPipe } from '@nestjs/common';
 import { AuthCredentialsInterface } from '../interfaces/auth-credentials.interface';
 
 dotenv.config({ path: `env/${process.env.NODE_ENV || 'development'}.env` });
@@ -15,6 +16,14 @@ class ConfigService {
     }
 
     return value;
+  }
+
+  public getValidationOptions(): ValidationPipe {
+    const validationPipe = new ValidationPipe({
+      transform: true,
+      transformOptions: { enableImplicitConversion: true, exposeDefaultValues: true },
+    });
+    return validationPipe;
   }
 
   public ensureValues(keys: string[]) {
@@ -73,7 +82,6 @@ class ConfigService {
   }
 }
 
-// singleton аля
 const configService = new ConfigService(process.env).ensureValues([
   'POSTGRES_HOST',
   'POSTGRES_PORT',

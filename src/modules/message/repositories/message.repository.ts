@@ -21,4 +21,20 @@ export class MessageRepository extends Repository<MessageEntity> implements IMes
       .take(paginationParams.per_page)
       .getMany();
   }
+
+  async getMessageHistory(id: number,
+    paginationParams: PaginationQueryParamsType): Promise<IMessage[]> {
+    return this.createQueryBuilder()
+      .select('messages')
+      .from(MessageEntity, 'messages')
+      .where('messages.receiver_id=:id OR messages.sender_id=:id',
+        { id })
+      .andWhere('messages.receiver_id!=id AND messages.sender_id!=id', { id })
+      .groupBy('messages.id')
+      .orderBy('messages.created_at', 'DESC')
+      .where('messages.receiver_id=:id OR messages.sender_id=:id', { id })
+      .skip((paginationParams.page - 1) * paginationParams.per_page)
+      .take(paginationParams.per_page)
+      .getMany();
+  }
 }

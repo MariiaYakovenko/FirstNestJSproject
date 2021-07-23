@@ -17,5 +17,5 @@ export const ROUTES = {
     MAIN: '/auth',
     LOGIN: '/sign_in',
   },
-  MAIN: 'api/docs',
+  MAIN: 'api',
 };

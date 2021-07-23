@@ -7,10 +7,7 @@ import { ROUTES } from './shared/config/routes';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe({
-    transform: true,
-    transformOptions: { enableImplicitConversion: true, exposeDefaultValues: true },
-  }));
+  app.useGlobalPipes(configService.getValidationOptions());
 
   const config = new DocumentBuilder()
     .setTitle('Users and messages')

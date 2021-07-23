@@ -6,6 +6,8 @@ import { CreateMessageType } from './types/create.message.type';
 import { UpdateMessageType } from './types/update.message.type';
 import { assignObjects } from '../../shared/assign_objects/assign-objects.helper';
 import { PaginationQueryParamsType } from '../../shared/types/pagination-query-params.type';
+import { LastMessageDto } from './dto/last.message.dto';
+import { LastMessageType } from './types/last.message.type';
 
 @Injectable()
 export class MessageService {
@@ -47,6 +49,12 @@ export class MessageService {
     const messages = await this.messageRepository.getMessagesOfTwoUsers(sender_id,
       receiver_id, paginationParams);
     if (!messages.length) throw new HttpException('Messages not found', HttpStatus.NOT_FOUND);
+    return messages;
+  }
+
+  async getMessageHistory(id: number,
+    paginationParams: PaginationQueryParamsType): Promise<IMessage[]> {
+    const messages = await this.messageRepository.getMessageHistory(id, paginationParams);
     return messages;
   }
 }

@@ -79,13 +79,13 @@ export class UserDto implements IUser {
 
    @ApiProperty({
      description: 'Array of received messages',
-     type: [MessageDto],
+     type: () => [MessageDto],
    })
    incoming_message?: MessageDto[];
 
    @ApiProperty({
      description: 'Array of sent messages',
-     type: [MessageDto],
+     type: () => [MessageDto],
    })
    outcoming_message?: MessageDto[];
 }

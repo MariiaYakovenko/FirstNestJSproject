@@ -22,7 +22,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm:migration:revert": "yarn build&&yarn  typeorm -- migration:revert",
     "typeorm:migration:generate": "yarn build&&yarn typeorm -- migration:generate -n",
-    "typeorm:migration:run": "yarn build&&yarn  typeorm -- migration:run"
+    "typeorm:migration:run": "yarn build&&yarn  typeorm -- migration:run",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },
   "dependencies": {
     "@nestjs/common": "^7.6.15",

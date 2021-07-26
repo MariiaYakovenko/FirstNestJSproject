@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { configService } from './shared/config/config.service';
@@ -8,6 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(configService.getValidationOptions());
   app.setGlobalPrefix(ROUTES.MAIN);
+  app.useGlobalInterceptors(app.get(Reflector));
 
   const config = new DocumentBuilder()
     .setTitle('Users and messages')

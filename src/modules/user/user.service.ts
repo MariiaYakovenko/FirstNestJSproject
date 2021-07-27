@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserRepository } from 'src/modules/user/repositories/user.repository';
 import * as bcrypt from 'bcrypt';
+import * as randomToken from 'rand-token';
 import { IUser } from './interfaces/user.interface';
 import { UpdateUserType } from './types/update.user.type';
 import { PaginationQueryParamsType } from '../../shared/types/pagination-query-params.type';

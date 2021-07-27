@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 import { UserRepository } from '../user/repositories/user.repository';
 import { AuthController } from './auth.controller';
 import { configService } from '../../shared/config/config.service';
-import { JwtStrategy } from './strategies/jwt.strategy';
+import { JwtAccessStrategy } from './strategies/jwt.access-strategy';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Module({
@@ -15,6 +15,6 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
     signOptions: { expiresIn: configService.getJwtExpiration() },
   }), TypeOrmModule.forFeature([UserRepository])],
   controllers: [AuthController],
-  providers: [AuthService, PassportModule, JwtStrategy, JwtAuthGuard],
+  providers: [AuthService, PassportModule, JwtAccessStrategy, JwtAuthGuard],
 })
 export class AuthModule {}

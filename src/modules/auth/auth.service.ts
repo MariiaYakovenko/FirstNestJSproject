@@ -1,10 +1,15 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import * as randomToken from 'rand-token';
+import * as moment from 'moment';
+import { ConfigService } from '@nestjs/config';
 import { UserRepository } from '../user/repositories/user.repository';
 import { LoginUserType } from '../user/types/login.user.type';
 import { IUser } from '../user/interfaces/user.interface';
 import { CreateUserType } from '../user/types/create.user.type';
+import { JwtPayloadDto } from './dto/jwt-payload.dto';
+import { configService } from '../../shared/config/config.service';
 
 @Injectable()
 export class AuthService {
@@ -16,6 +21,27 @@ export class AuthService {
   async generateJwt(user: IUser): Promise<string> {
     return this.jwtService.signAsync({ user });
   }
+
+  // async setCurrentRefreshToken(refreshToken: string, userId: number) {
+  //   const currentRefreshToken = await bcrypt.hash(refreshToken, 10);
+  // }
+
+  // private _refreshOptions: IJwtOptions = {
+  //   expiresIn: configService.getJwtExpiration(true),
+  //   secret: configService.getJwtSecret(true),
+  // };
+  // get refreshOptions(): IJwtOptions {
+  //   return this._refreshOptions;
+  // }
+  //
+  // public async getRefreshedToken(id: number): Promise<string> {
+  //   const payload: JwtPayloadDto = { id };
+  //   const token = this.jwtService.signAsync(payload, {
+  //     secret: this.configService.get(configService.getJwtSecret()),
+  //     expiresIn: `${this.configService.get(configService.getJwtExpiration())}`,
+  //   });
+  //   return token;
+  // }
 
   async createUser(user: CreateUserType): Promise<IUser> {
     const userFromDb = await this.userRepository.findOne({ email: user.email });

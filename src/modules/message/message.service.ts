@@ -6,8 +6,7 @@ import { CreateMessageType } from './types/create.message.type';
 import { UpdateMessageType } from './types/update.message.type';
 import { assignObjects } from '../../shared/assign_objects/assign-objects.helper';
 import { PaginationQueryParamsType } from '../../shared/types/pagination-query-params.type';
-import { LastMessageDto } from './dto/last.message.dto';
-import { LastMessageType } from './types/last.message.type';
+import { SenderAndReceiverType } from './types/sender-and-receiver.type';
 
 @Injectable()
 export class MessageService {
@@ -44,10 +43,9 @@ export class MessageService {
     if (!result.affected) throw new HttpException('Message to be deleted not found', HttpStatus.NOT_FOUND);
   }
 
-  async getMessagesOfTwoUsers(sender_id: number, receiver_id: number,
-    paginationParams: PaginationQueryParamsType): Promise<IMessage[]> {
-    const messages = await this.messageRepository.getMessagesOfTwoUsers(sender_id,
-      receiver_id, paginationParams);
+  async getMessagesOfTwoUsers(senderAndReceiver: SenderAndReceiverType): Promise<[IMessage[], number]> {
+    const messages = await this.messageRepository.getMessagesOfTwoUsers(senderAndReceiver.sender_id,
+      senderAndReceiver.receiver_id, senderAndReceiver.per_page, senderAndReceiver.page);
     if (!messages.length) throw new HttpException('Messages not found', HttpStatus.NOT_FOUND);
     return messages;
   }

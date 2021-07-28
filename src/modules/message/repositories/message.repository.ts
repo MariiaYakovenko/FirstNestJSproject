@@ -6,8 +6,8 @@ import { IMessage } from '../interfaces/message.interface';
 
 @EntityRepository(MessageEntity)
 export class MessageRepository extends Repository<MessageEntity> implements IMessageRepository {
-  async getMessagesOfTwoUsers(sender_id: number, receiver_id: number,
-    paginationParams: PaginationQueryParamsType):Promise<IMessage[]> {
+  async getMessagesOfTwoUsers(sender_id: number, receiver_id: number, per_page: number,
+    page: number):Promise<[IMessage[], number]> {
     return this.createQueryBuilder()
       .select('messages')
       .from(MessageEntity, 'messages')
@@ -17,9 +17,9 @@ export class MessageRepository extends Repository<MessageEntity> implements IMes
         { receiver_id, sender_id })
       .groupBy('messages.id')
       .orderBy('messages.created_at', 'ASC')
-      .skip((paginationParams.page - 1) * paginationParams.per_page)
-      .take(paginationParams.per_page)
-      .getMany();
+      .skip((page - 1) * per_page)
+      .take(per_page)
+      .getManyAndCount();
   }
   //
   // async getMessageHistory(id: number,

@@ -15,6 +15,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { LastMessageDto } from './dto/last.message.dto';
 
  @Controller(ROUTES.MESSAGE.MAIN)
+ @UseGuards(JwtAuthGuard)
  @UseFilters(HttpExceptionFilter)
  @ApiTags('Messages')
 export class MessageController {
@@ -29,7 +30,6 @@ export class MessageController {
      description: 'Message created',
      type: MessageDto,
    })
-   @UseGuards(JwtAuthGuard)
    @Post()
   async createMessage(@Body() message:CreateMessageDto):Promise<MessageDto> {
     return this.messageService.createMessage(message);
@@ -44,7 +44,6 @@ export class MessageController {
     description: 'Message by id gotten',
     type: MessageDto,
   })
-  @UseGuards(JwtAuthGuard)
    @Get(ROUTES.MESSAGE.GET_MESSAGE)
    async getMessage(@Param() { id }: ParamDto): Promise<MessageDto> {
      return this.messageService.getMessage(id);
@@ -59,7 +58,6 @@ export class MessageController {
      description: 'Message updated',
      type: MessageDto,
    })
-   @UseGuards(JwtAuthGuard)
    @Put(ROUTES.MESSAGE.UPDATE)
   async updateMessage(
      @Param() { id }: ParamDto,
@@ -76,7 +74,6 @@ export class MessageController {
      status: HttpStatus.NO_CONTENT,
      description: 'Message deleted',
    })
-   @UseGuards(JwtAuthGuard)
    @HttpCode(HttpStatus.NO_CONTENT)
    @Delete(ROUTES.MESSAGE.DELETE)
    async deleteMessage(@Param() { id }: ParamDto): Promise<void> {
@@ -90,18 +87,14 @@ export class MessageController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Messages gotten',
-    type: MessageDto,
+    type: () => [MessageDto],
   })
-  @UseGuards(JwtAuthGuard)
   @Get(ROUTES.MESSAGE.GET_MESSAGES_OF_TWO_USERS)
-   async getMessagesOfTwoUsers(@Query() { sender_id }:SenderAndReceiverDto,
-                               @Query() { receiver_id }:SenderAndReceiverDto,
-                               @Query() paginationParams: PaginationQueryParamsDto): Promise<MessageDto[]> {
-     return this.messageService.getMessagesOfTwoUsers(sender_id, receiver_id, paginationParams);
+   async getMessagesOfTwoUsers(@Query() params:SenderAndReceiverDto): Promise<[MessageDto[], number]> {
+     return this.messageService.getMessagesOfTwoUsers(params);
    }
 
-   @UseGuards(JwtAuthGuard)
-   @Get('/history/:id')
+   @Get(ROUTES.MESSAGE.GET_MESSAGE_HISTORY)
   async getMessageHistory(@Param() { id }: ParamDto,
                           @Query() paginationParams: PaginationQueryParamsDto): Promise<LastMessageDto[]> {
     return this.messageService.getMessageHistory(id, paginationParams);

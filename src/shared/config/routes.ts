@@ -12,6 +12,7 @@ export const ROUTES = {
     GET_MESSAGES_OF_TWO_USERS: '/user',
     UPDATE: 'update/:id',
     DELETE: 'delete/:id',
+    GET_MESSAGE_HISTORY: '/history/:id',
   },
   AUTH: {
     MAIN: '/auth',

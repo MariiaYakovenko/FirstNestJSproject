@@ -45,8 +45,4 @@ export class UserEntity implements IUser {
 
     @OneToMany(() => MessageEntity, (message:MessageEntity) => message.sender)
     outcoming_message:MessageEntity[];
-
-    @Column({ type: 'varchar', nullable: true, select: false })
-    @Exclude({ toPlainOnly: true })
-    token: string;
 }

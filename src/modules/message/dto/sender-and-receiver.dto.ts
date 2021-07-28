@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsInt, IsNotEmpty, IsPositive } from 'class-validator';
+import { PaginationQueryParamsDto } from '../../../shared/dto/pagination-query-params.dto';
 
-export class SenderAndReceiverDto {
+export class SenderAndReceiverDto extends PaginationQueryParamsDto {
   @ApiProperty({
     description: 'Id of a sender',
     type: Number,

@@ -101,14 +101,4 @@ export class UserDto implements IUser {
      type: () => [MessageDto],
    })
    outcoming_message?: MessageDto[];
-
-  @ApiProperty({
-    description: 'User\'s token',
-    type: String,
-    required: false,
-    nullable: true,
-  })
-  @IsString()
-  @Exclude({ toPlainOnly: true })
-   token: string;
 }

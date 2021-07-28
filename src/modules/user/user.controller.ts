@@ -4,8 +4,8 @@ import {
   Put,
   Param,
   Get,
-  Delete, HttpStatus, UseFilters, Query, HttpCode, UseGuards
-} from "@nestjs/common";
+  Delete, HttpStatus, UseFilters, Query, HttpCode, UseGuards,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { UserDto } from './dto/user.dto';
@@ -14,9 +14,10 @@ import { ParamDto } from '../../shared/dto/param.dto';
 import { UpdateUserDto } from './dto/update.user.dto';
 import { HttpExceptionFilter } from '../../shared/filters/http-exception.filter';
 import { PaginationQueryParamsDto } from '../../shared/dto/pagination-query-params.dto';
-import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller(ROUTES.USER.MAIN)
+@UseGuards(JwtAuthGuard)
 @UseFilters(HttpExceptionFilter)
 @ApiTags('Users')
 export class UserController {
@@ -31,7 +32,6 @@ export class UserController {
     description: 'User by id gotten',
     type: UserDto,
   })
-  @UseGuards(JwtAuthGuard)
   @Get(ROUTES.USER.GET_USER)
   async getUser(@Param() { id }: ParamDto): Promise<UserDto> {
     return this.userService.getUser(id);
@@ -61,7 +61,6 @@ export class UserController {
     description: 'User updated',
     type: UserDto,
   })
-   @UseGuards(JwtAuthGuard)
    @Put(ROUTES.USER.UPDATE)
   async updateUser(
      @Param() { id }: ParamDto,
@@ -78,7 +77,6 @@ export class UserController {
     status: HttpStatus.NO_CONTENT,
     description: 'User deleted',
   })
-  @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(ROUTES.USER.DELETE)
    async deleteUser(@Param() { id }: ParamDto): Promise<void> {

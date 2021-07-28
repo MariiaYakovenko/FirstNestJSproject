@@ -11,5 +11,4 @@ export interface IUser {
   updated_at: Date;
   incoming_message?: IMessage[];
   outcoming_message?: IMessage[];
-  token: string;
 }

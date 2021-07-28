@@ -30,7 +30,6 @@ export class UserService {
   async updateUser(id: number, user: UpdateUserType): Promise<IUser> {
     const updatedUser = await this.userRepository.findOne(id);
     if (!updatedUser) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    user.password = await bcrypt.hash(user.password, 12);
     assignObjects(updatedUser, user);
     await this.userRepository.save(updatedUser);
     return this.userRepository.findOne(id);

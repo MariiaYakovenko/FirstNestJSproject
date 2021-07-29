@@ -12,7 +12,6 @@ import { HttpExceptionFilter } from '../../shared/filters/http-exception.filter'
 import { SenderAndReceiverDto } from './dto/sender-and-receiver.dto';
 import { PaginationQueryParamsDto } from '../../shared/dto/pagination-query-params.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { LastMessageDto } from './dto/last.message.dto';
 
  @Controller(ROUTES.MESSAGE.MAIN)
  @UseGuards(JwtAuthGuard)
@@ -95,8 +94,10 @@ export class MessageController {
    }
 
    @Get(ROUTES.MESSAGE.GET_MESSAGE_HISTORY)
-  async getMessageHistory(@Param() { id }: ParamDto,
-                          @Query() paginationParams: PaginationQueryParamsDto): Promise<MessageDto[]> {
+  async getMessageHistory(
+      @Param() { id }: ParamDto,
+      @Query() paginationParams: PaginationQueryParamsDto,
+  ): Promise<MessageDto[]> {
     return this.messageService.getMessageHistory(id, paginationParams);
   }
 }

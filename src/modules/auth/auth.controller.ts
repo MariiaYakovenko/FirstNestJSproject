@@ -31,14 +31,14 @@ export class AuthController {
   @UseInterceptors(ClassSerializerInterceptor)
   async createUser(@Body() user: CreateUserDto, @Req() req): Promise<UserDto> {
     const createdUser = await this.authService.createUser(user);
-    req.res.setHeader('accessToken', createdUser.accessToken);
-    req.res.setHeader('refreshToken', createdUser.refreshToken);
-    req.res.setHeader('expiresAt', createdUser.expiresAt.exp);
+    req.res.setHeader('access_token', createdUser.accessToken);
+    req.res.setHeader('refresh_token', createdUser.refreshToken);
+    req.res.setHeader('expires_at', createdUser.expiresAt.exp);
     return createdUser.createdUserFromDb;
   }
 
   @ApiBody({
-    schema: { example: { email: 'user@gmaiil.com', password: '123456' } },
+    schema: { example: { email: 'user@gmail.com', password: '123456' } },
   })
   @ApiOperation({
     summary: 'Signs in a user',
@@ -53,15 +53,15 @@ export class AuthController {
   @UseInterceptors(ClassSerializerInterceptor)
   async login(@Body() loginUserDto: LoginUserDto, @Req() req): Promise<UserDto> {
     const user = await this.authService.login(loginUserDto);
-    req.res.setHeader('accessToken', user.accessToken);
-    req.res.setHeader('refreshToken', user.refreshToken);
-    req.res.setHeader('expiresAt', user.expiresAt.exp);
+    req.res.setHeader('access_token', user.accessToken);
+    req.res.setHeader('refresh_token', user.refreshToken);
+    req.res.setHeader('expires_at', user.expiresAt.exp);
     return user.confirmedUserFromDb;
   }
 
   @Post('refresh-token')
   @ApiHeader({
-    name: 'refreshToken',
+    name: 'refresh_token',
     description: 'user refresh token',
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -73,8 +73,8 @@ export class AuthController {
   @UseGuards(JwtRefreshGuard)
   async refreshToken(@Req() req): Promise<void> {
     const result = await this.authService.generateJwt(req.params);
-    req.res.setHeader('accessToken', result.accessToken);
-    req.res.setHeader('refreshToken', result.refreshToken);
-    req.res.setHeader('expiresAt', result.expiresAt.exp);
+    req.res.setHeader('access_token', result.accessToken);
+    req.res.setHeader('refresh_token', result.refreshToken);
+    req.res.setHeader('expires_at', result.expiresAt.exp);
   }
 }

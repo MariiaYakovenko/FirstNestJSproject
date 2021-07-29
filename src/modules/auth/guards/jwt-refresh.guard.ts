@@ -10,8 +10,11 @@ export class JwtRefreshGuard implements CanActivate {
     const req = context.switchToHttp().getRequest();
     if (req.headers.refreshtoken) {
       const token = (req.headers.refreshtoken as string);
-      const decoded = await jwt.verify(token, configService.getJwtSecret(true));
-      if (!decoded) throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+      try {
+        await jwt.verify(token, configService.getJwtSecret(true));
+      } catch {
+        throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+      }
       return true;
     }
   }

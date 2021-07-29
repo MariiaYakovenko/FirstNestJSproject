@@ -96,7 +96,7 @@ export class MessageController {
 
    @Get(ROUTES.MESSAGE.GET_MESSAGE_HISTORY)
   async getMessageHistory(@Param() { id }: ParamDto,
-                          @Query() paginationParams: PaginationQueryParamsDto): Promise<LastMessageDto[]> {
+                          @Query() paginationParams: PaginationQueryParamsDto): Promise<MessageDto[]> {
     return this.messageService.getMessageHistory(id, paginationParams);
   }
 }

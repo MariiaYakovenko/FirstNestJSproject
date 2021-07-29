@@ -50,17 +50,15 @@ export class MessageRepository extends Repository<MessageEntity> implements IMes
   async getMessageHistory(id: number,
     paginationParams: PaginationQueryParamsType): Promise<IMessage[]> {
     return this.createQueryBuilder()
-      .select(['DISTINCT (messages.receiver_id), DISTINCT (messages.sender_id), messages.created_at AS date, '
-      + 'messages.message_body AS text, messages.receiver AS receiver, messages.sender AS sender, messages.id AS id'])
+      .select('DISTINCT (messages.receiver_id)')
+      .addSelect(['messages.created_at, '
+        + 'messages.message_body, messages.receiver, messages.receiver_id, '
+        + 'messages.sender_id, messages.id'])
       .from(MessageEntity, 'messages')
-      .where('messages.receiver_id=:id OR messages.sender_id=:id',
+      .where('messages.sender_id=:id',
         { id })
-      .leftJoin('messages.receiver', 'receiver')
-      .leftJoin('messages.sender', 'sender')
       .groupBy('messages.id')
       .orderBy('messages.created_at', 'DESC')
-      .skip((paginationParams.page - 1) * paginationParams.per_page)
-      .take(paginationParams.per_page)
-      .getMany();
+      .getRawMany();
   }
 }

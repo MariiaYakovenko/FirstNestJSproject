@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import _ from 'lodash';
 import { MessageRepository } from './repositories/message.repository';
 import { IMessage } from './interfaces/message.interface';
 import { UserRepository } from '../user/repositories/user.repository';
@@ -6,7 +7,8 @@ import { CreateMessageType } from './types/create.message.type';
 import { UpdateMessageType } from './types/update.message.type';
 import { assignObjects } from '../../shared/assign_objects/assign-objects.helper';
 import { SenderAndReceiverType } from './types/sender-and-receiver.type';
-import { IResponse } from './interfaces/response.interface';
+import { IMessagesWithPagination } from './interfaces/messages-with-pagination.interface';
+import { PaginationQueryParamsType } from '../../shared/types/pagination-query-params.type';
 
 @Injectable()
 export class MessageService {
@@ -43,7 +45,7 @@ export class MessageService {
     if (!result.affected) throw new HttpException('Message to be deleted not found', HttpStatus.NOT_FOUND);
   }
 
-  async getMessagesOfTwoUsers(senderAndReceiver: SenderAndReceiverType): Promise<IResponse> {
+  async getMessagesOfTwoUsers(senderAndReceiver: SenderAndReceiverType): Promise<IMessagesWithPagination> {
     const messages = await this.messageRepository.getMessagesOfTwoUsers(senderAndReceiver.sender_id,
       senderAndReceiver.receiver_id, senderAndReceiver.per_page, senderAndReceiver.page);
     if (!messages.length) throw new HttpException('Messages not found', HttpStatus.NOT_FOUND);
@@ -57,7 +59,8 @@ export class MessageService {
     };
   }
 
-  async getMessageHistory(id: number): Promise<IMessage[]> {
+  async getMessageHistory(id: number, paginationParams: PaginationQueryParamsType)
+    : Promise<IMessagesWithPagination> {
     const messagesOfSender = await this.messageRepository.getMessageHistoryOfSender(id);
     const messagesOfReceiver = await this.messageRepository.getMessageHistoryOfReceiver(id);
     if (!messagesOfSender.length && !messagesOfReceiver.length) {
@@ -75,6 +78,12 @@ export class MessageService {
         messages.splice(i + 1, 1);
       }
     }
-    return messages;
+    return {
+      messages: _.drop(messages, (paginationParams.page - 1) * paginationParams.per_page)
+        .slice(0, paginationParams.per_page),
+      current_page: paginationParams.page,
+      total_pages: Math.trunc((messages.length / paginationParams.per_page)) + 1,
+      total_records: messages.length,
+    };
   }
 }

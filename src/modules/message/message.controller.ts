@@ -11,7 +11,8 @@ import { UpdateMessageDto } from './dto/update.message.dto';
 import { HttpExceptionFilter } from '../../shared/filters/http-exception.filter';
 import { SenderAndReceiverDto } from './dto/sender-and-receiver.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { ResponseDto } from './dto/response.dto';
+import { MessagesWithPaginationDto } from './dto/messages-with-pagination.dto';
+import { PaginationQueryParamsDto } from '../../shared/dto/pagination-query-params.dto';
 
  @Controller(ROUTES.MESSAGE.MAIN)
  @UseGuards(JwtAuthGuard)
@@ -86,10 +87,10 @@ export class MessageController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Messages gotten',
-    type: [ResponseDto],
+    type: MessagesWithPaginationDto,
   })
   @Get(ROUTES.MESSAGE.GET_MESSAGES_OF_TWO_USERS)
-   async getMessagesOfTwoUsers(@Query() params:SenderAndReceiverDto): Promise<ResponseDto> {
+   async getMessagesOfTwoUsers(@Query() params:SenderAndReceiverDto): Promise<MessagesWithPaginationDto> {
      return this.messageService.getMessagesOfTwoUsers(params);
    }
 
@@ -103,7 +104,9 @@ export class MessageController {
      type: () => [MessageDto],
    })
    @Get(ROUTES.MESSAGE.GET_MESSAGE_HISTORY)
-  async getMessageHistory(@Param() { id }: ParamDto): Promise<MessageDto[]> {
-    return this.messageService.getMessageHistory(id);
+  async getMessageHistory(@Param() { id }: ParamDto,
+                          @Query() paginationParams: PaginationQueryParamsDto)
+     : Promise<MessagesWithPaginationDto> {
+    return this.messageService.getMessageHistory(id, paginationParams);
   }
 }

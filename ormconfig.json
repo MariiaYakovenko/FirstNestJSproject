@@ -1,0 +1,23 @@
+{
+  "type": "postgres",
+  "host": "127.0.0.1",
+  "port": 5432,
+  "username": "postgres",
+  "password": "postgres",
+  "database": "nest_db",
+  "entities": [
+    "/home/oksana/Desktop/myFolder/first-project/src/shared/config/../../**/**/**/*.entity{.ts,.js}"
+  ],
+  "synchronize": false,
+  "migrationsTableName": "migration",
+  "migrations": [
+    "dist/migration/*.js"
+  ],
+  "cli": {
+    "migrationsDir": "src/migration"
+  },
+  "keepConnectionAlive": true,
+  "ssl": false,
+  "logger": "file",
+  "migrationsRun": true
+}

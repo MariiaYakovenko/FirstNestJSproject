@@ -93,7 +93,7 @@ export class UserController {
      description: 'User found',
    })
    @Get(ROUTES.USER.FIND)
-  async findUserByName(@Query() { name }: UserNameDto): Promise<UserDto[]|UserDto> {
+  async findUserByName(@Query() { name }: UserNameDto): Promise<UserDto[]> {
     return this.userService.findUserByName(name);
   }
 }

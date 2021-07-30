@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IResponse } from '../interfaces/response.interface';
+import { IMessagesWithPagination } from '../interfaces/messages-with-pagination.interface';
 import { IMessage } from '../interfaces/message.interface';
 import { MessageDto } from './message.dto';
 
-export class ResponseDto implements IResponse {
+export class MessagesWithPaginationDto implements IMessagesWithPagination {
   @ApiProperty({
     description: 'Array of messages of two users',
     type: () => [MessageDto],

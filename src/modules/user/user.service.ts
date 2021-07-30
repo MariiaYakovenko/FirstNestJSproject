@@ -39,9 +39,9 @@ export class UserService {
     if (!result.affected) throw new HttpException('User to be deleted not found', HttpStatus.NOT_FOUND);
   }
 
-  async findUserByName(name: string): Promise<IUser[]|IUser> {
-    const user = await this.userRepository.find({ name });
-    if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    return user;
+  async findUserByName(name: string): Promise<IUser[]> {
+    const users = await this.userRepository.find({ name });
+    if (!users.length) throw new HttpException('Users not found', HttpStatus.NOT_FOUND);
+    return users;
   }
 }

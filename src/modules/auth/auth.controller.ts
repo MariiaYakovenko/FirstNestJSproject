@@ -2,7 +2,7 @@ import {
   Body, ClassSerializerInterceptor, Controller, HttpStatus, Post, Req, UseFilters, UseGuards, UseInterceptors,
 } from '@nestjs/common';
 import {
-  ApiBody, ApiHeader, ApiOperation, ApiResponse, ApiTags,
+  ApiHeader, ApiOperation, ApiResponse, ApiTags,
 } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { HttpExceptionFilter } from '../../shared/filters/http-exception.filter';
@@ -11,6 +11,7 @@ import { LoginUserDto } from '../user/dto/login.user.dto';
 import { UserDto } from '../user/dto/user.dto';
 import { CreateUserDto } from '../user/dto/create.user.dto';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
+import { headers } from '../../shared/constants/headers';
 
 @Controller(ROUTES.AUTH.MAIN)
 @UseFilters(HttpExceptionFilter)
@@ -37,9 +38,6 @@ export class AuthController {
     return createdUser.createdUserFromDb;
   }
 
-  @ApiBody({
-    schema: { example: { email: 'user@gmail.com', password: '123456' } },
-  })
   @ApiOperation({
     summary: 'Signs in a user',
     description: 'Signs in a user',
@@ -48,6 +46,7 @@ export class AuthController {
     status: HttpStatus.OK,
     description: 'User signed in',
     type: UserDto,
+    headers,
   })
   @Post(ROUTES.AUTH.LOGIN)
   @UseInterceptors(ClassSerializerInterceptor)
@@ -69,6 +68,7 @@ export class AuthController {
     status: 200,
     description: 'Token refreshed.',
     schema: { example: { result: true } },
+    headers,
   })
   @UseGuards(JwtRefreshGuard)
   async refreshToken(@Req() req): Promise<void> {

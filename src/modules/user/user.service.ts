@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserRepository } from 'src/modules/user/repositories/user.repository';
-import * as bcrypt from 'bcrypt';
 import { IUser } from './interfaces/user.interface';
 import { UpdateUserType } from './types/update.user.type';
 import { PaginationQueryParamsType } from '../../shared/types/pagination-query-params.type';
@@ -38,5 +37,11 @@ export class UserService {
   async deleteUser(id: number): Promise<void> {
     const result = await this.userRepository.delete(id);
     if (!result.affected) throw new HttpException('User to be deleted not found', HttpStatus.NOT_FOUND);
+  }
+
+  async findUserByName(name: string): Promise<IUser[]|IUser> {
+    const user = await this.userRepository.find({ name });
+    if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    return user;
   }
 }

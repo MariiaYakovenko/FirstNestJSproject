@@ -5,6 +5,7 @@ export const ROUTES = {
     GET_ALL_USERS: '/all',
     UPDATE: '/update/:id',
     DELETE: '/delete/:id',
+    FIND: '/find',
   },
   MESSAGE: {
     MAIN: '/message',

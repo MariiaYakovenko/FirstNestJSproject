@@ -15,6 +15,7 @@ import { UpdateUserDto } from './dto/update.user.dto';
 import { HttpExceptionFilter } from '../../shared/filters/http-exception.filter';
 import { PaginationQueryParamsDto } from '../../shared/dto/pagination-query-params.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { UserNameDto } from './dto/user.name.dto';
 
 @Controller(ROUTES.USER.MAIN)
 @UseGuards(JwtAuthGuard)
@@ -82,4 +83,17 @@ export class UserController {
    async deleteUser(@Param() { id }: ParamDto): Promise<void> {
      await this.userService.deleteUser(id);
    }
+
+   @ApiOperation({
+     summary: 'Finds a user by their name',
+     description: 'Finds a user by their name',
+   })
+   @ApiResponse({
+     status: HttpStatus.OK,
+     description: 'User found',
+   })
+   @Get(ROUTES.USER.FIND)
+  async findUserByName(@Query() { name }: UserNameDto): Promise<UserDto[]|UserDto> {
+    return this.userService.findUserByName(name);
+  }
 }

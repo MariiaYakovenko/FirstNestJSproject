@@ -1,5 +1,5 @@
 import {
-  Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, UseFilters,
+  Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query, UseFilters, UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { MessageDto } from './dto/message.dto';
@@ -9,8 +9,13 @@ import { ParamDto } from '../../shared/dto/param.dto';
 import { CreateMessageDto } from './dto/create.message.dto';
 import { UpdateMessageDto } from './dto/update.message.dto';
 import { HttpExceptionFilter } from '../../shared/filters/http-exception.filter';
+import { SenderAndReceiverDto } from './dto/sender-and-receiver.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { MessagesWithPaginationDto } from './dto/messages-with-pagination.dto';
+import { PaginationQueryParamsDto } from '../../shared/dto/pagination-query-params.dto';
 
  @Controller(ROUTES.MESSAGE.MAIN)
+ @UseGuards(JwtAuthGuard)
  @UseFilters(HttpExceptionFilter)
  @ApiTags('Messages')
 export class MessageController {
@@ -75,17 +80,33 @@ export class MessageController {
      await this.messageService.deleteMessage(id);
    }
 
-  // @ApiOperation({
-  //   summary: 'Gets messages of two users',
-  //   description: 'Gets messages of two users',
-  // })
-  // @ApiResponse({
-  //   status: HttpStatus.OK,
-  //   description: 'Messages gotten',
-  //   type: MessageDto,
-  // })
-  // @Get('/user/:id&:id')
-  // async getUserMessages(@Param() senderId:ParamDto, @Param() receiverId:ParamDto): Promise<MessageDto[]> {
-  //   return this.messageService.getUserMessages(senderId, receiverId);
-  // }
+  @ApiOperation({
+    summary: 'Gets messages of two users',
+    description: 'Gets messages of two users',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Messages gotten',
+    type: MessagesWithPaginationDto,
+  })
+  @Get(ROUTES.MESSAGE.GET_MESSAGES_OF_TWO_USERS)
+   async getMessagesOfTwoUsers(@Query() params:SenderAndReceiverDto): Promise<MessagesWithPaginationDto> {
+     return this.messageService.getMessagesOfTwoUsers(params);
+   }
+
+   @ApiOperation({
+     summary: 'Gets user\'s last messages who they have ever chatted with',
+     description: 'Gets user\'s last messages who they have ever chatted with',
+   })
+   @ApiResponse({
+     status: HttpStatus.OK,
+     description: 'Messages gotten',
+     type: () => [MessageDto],
+   })
+   @Get(ROUTES.MESSAGE.GET_MESSAGE_HISTORY)
+  async getMessageHistory(@Param() { id }: ParamDto,
+                          @Query() paginationParams: PaginationQueryParamsDto)
+     : Promise<MessagesWithPaginationDto> {
+    return this.messageService.getMessageHistory(id, paginationParams);
+  }
 }

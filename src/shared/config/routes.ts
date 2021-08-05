@@ -5,13 +5,19 @@ export const ROUTES = {
     GET_ALL_USERS: '/all',
     UPDATE: '/update/:id',
     DELETE: '/delete/:id',
+    FIND: '/find',
   },
   MESSAGE: {
     MAIN: '/message',
     GET_MESSAGE: '/get/:id',
-    GET_ALL_MESSAGES: '/all',
+    GET_MESSAGES_OF_TWO_USERS: '/user',
     UPDATE: 'update/:id',
     DELETE: 'delete/:id',
+    GET_MESSAGE_HISTORY: '/history/:id',
   },
-  MAIN: '/api',
+  AUTH: {
+    MAIN: '/auth',
+    LOGIN: '/sign_in',
+  },
+  MAIN: 'api',
 };

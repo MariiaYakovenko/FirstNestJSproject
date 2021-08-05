@@ -7,9 +7,10 @@ import { IUserRepository } from './user.repository.interface';
 
 @EntityRepository(UserEntity)
 export class UserRepository extends Repository<UserEntity> implements IUserRepository {
-  async getUserByEmail(email:string):Promise<IUser> {
+  async getUserWithPsswordByEmail(email:string):Promise<IUser> {
     return this.createQueryBuilder()
       .select('user')
+      .addSelect('user.password')
       .from(UserEntity, 'user')
       .where('user.email=:email', { email })
       .getOne();

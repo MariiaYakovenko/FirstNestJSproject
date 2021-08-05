@@ -1,41 +1,28 @@
 import {
   Controller,
-  Post,
   Body,
   Put,
   Param,
   Get,
-  Delete, HttpStatus, UseFilters, Query, HttpCode,
+  Delete, HttpStatus, UseFilters, Query, HttpCode, UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { UserDto } from './dto/user.dto';
 import { ROUTES } from '../../shared/config/routes';
 import { ParamDto } from '../../shared/dto/param.dto';
-import { CreateUserDto } from './dto/create.user.dto';
 import { UpdateUserDto } from './dto/update.user.dto';
 import { HttpExceptionFilter } from '../../shared/filters/http-exception.filter';
 import { PaginationQueryParamsDto } from '../../shared/dto/pagination-query-params.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { UserNameDto } from './dto/user.name.dto';
 
 @Controller(ROUTES.USER.MAIN)
+@UseGuards(JwtAuthGuard)
 @UseFilters(HttpExceptionFilter)
 @ApiTags('Users')
 export class UserController {
   constructor(private userService: UserService) {}
-
-  @ApiOperation({
-    summary: 'Creates a user',
-    description: 'Creates a user',
-  })
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'User created',
-    type: UserDto,
-  })
-  @Post()
-  async createUser(@Body() user: CreateUserDto): Promise<UserDto> {
-    return this.userService.createUser(user);
-  }
 
   @ApiOperation({
     summary: 'Gets a user by id',
@@ -96,4 +83,17 @@ export class UserController {
    async deleteUser(@Param() { id }: ParamDto): Promise<void> {
      await this.userService.deleteUser(id);
    }
+
+   @ApiOperation({
+     summary: 'Finds a user by their name',
+     description: 'Finds a user by their name',
+   })
+   @ApiResponse({
+     status: HttpStatus.OK,
+     description: 'User found',
+   })
+   @Get(ROUTES.USER.FIND)
+  async findUserByName(@Query() { name }: UserNameDto): Promise<UserDto[]> {
+    return this.userService.findUserByName(name);
+  }
 }

@@ -68,16 +68,16 @@ class ConfigService {
       password: this.getValue('POSTGRES_PASSWORD'),
       database: this.getValue('POSTGRES_DATABASE'),
       entities: [`${__dirname}/../../**/**/**/*.entity{.ts,.js}`],
-      synchronize: true,
-      // migrationsTableName: 'migration',
-      // migrations: ['dist/migration/*.js'],
+      synchronize: false,
+      migrationsTableName: 'migration',
+      migrations: ['dist/migration/*.js'],
       cli: {
-        // migrationsDir: 'src/migration',
+        migrationsDir: 'src/migration',
       },
       keepConnectionAlive: true,
       ssl: false,
       logger: configService.isProduction() ? 'file' : 'advanced-console',
-      // migrationsRun: configService.isProduction(),
+      migrationsRun: configService.isProduction(),
     };
   }
 }

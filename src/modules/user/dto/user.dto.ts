@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail, IsNotEmpty, IsString, Length,
 } from 'class-validator';
+import { Exclude } from 'class-transformer';
 import { IUser } from '../interfaces/user.interface';
 import { MessageDto } from '../../message/dto/message.dto';
 
@@ -18,6 +19,7 @@ export class UserDto implements IUser {
      type: String,
      required: true,
      nullable: false,
+     default: '',
      minLength: 1,
      maxLength: 30,
    })
@@ -31,6 +33,7 @@ export class UserDto implements IUser {
      type: String,
      required: true,
      nullable: false,
+     default: '',
      minLength: 1,
      maxLength: 30,
    })
@@ -38,6 +41,18 @@ export class UserDto implements IUser {
    @IsNotEmpty()
    @Length(1, 30)
    last_name: string;
+
+  @ApiProperty({
+    description: 'User\'s automatically generated name',
+    type: String,
+    nullable: true,
+    minLength: 1,
+    maxLength: 60,
+  })
+  @IsString()
+  @IsNotEmpty()
+  @Length(1, 60)
+   name: string;
 
    @ApiProperty({
      description: 'User\'s email',
@@ -55,14 +70,12 @@ export class UserDto implements IUser {
    @ApiProperty({
      description: 'User\'s password',
      type: String,
-     required: true,
+     required: false,
      nullable: false,
-     minLength: 6,
-     maxLength: 30,
    })
    @IsString()
    @IsNotEmpty()
-   @Length(6, 30)
+   @Exclude({ toPlainOnly: true })
    password: string;
 
    @ApiProperty({

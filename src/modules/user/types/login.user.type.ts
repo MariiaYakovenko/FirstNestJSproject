@@ -1,3 +1,3 @@
 import { CreateUserType } from './create.user.type';
 
-export type UpdateUserType = Partial<CreateUserType>;
+export type LoginUserType = Partial<CreateUserType>;
